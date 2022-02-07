@@ -1,0 +1,2 @@
+Clarification #1:
+Les numéros des individus dans le fichier test correspondent au numéros de lignes de Pandas, et non aux IDs des individus enregistrés dans le premier attribut.
