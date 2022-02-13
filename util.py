@@ -26,15 +26,22 @@ def plot_column_values(df, column_name):
     plt.show()
 
 
+def get_column_unique_answers(df, column_name):
+    """
+    Returns a list of unique answers to the column
+    """
+    return df[column_name].unique().tolist()
+
+
 def get_unique_values_per_column(df, min_unique_threshold=None, max_unique_threshold=None):
     """
     Returns a list of unique values per column with optional minimum threshold
     """
     unique_values = df.nunique()
 
-    if min_unique_threshold:
+    if min_unique_threshold is not None:
         unique_values = unique_values[unique_values > min_unique_threshold]
-    elif max_unique_threshold:
+    elif max_unique_threshold is not None:
         unique_values = unique_values[unique_values < max_unique_threshold]
 
     return unique_values
