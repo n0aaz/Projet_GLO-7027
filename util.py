@@ -68,7 +68,7 @@ def get_samples_per_column(df, N=5):
     return samples_per_column
 
 
-def get_normalized_ordinal_question_answers(df, answer_order_dic, question_of_interest, lower_bound=-1, upper_bound=1):
+def get_normalized_ordinal_question_answers(df, answer_order_dic, question_of_interest, default_value=0.0, lower_bound=-1, upper_bound=1):
     answers = df[question_of_interest]
     unique_answers_sorted = answers.unique(
     )[answer_order_dic[question_of_interest]]
@@ -76,10 +76,16 @@ def get_normalized_ordinal_question_answers(df, answer_order_dic, question_of_in
                      answer in enumerate(unique_answers_sorted)}
 
     # Replace each answer with its corresponding integer
-    normalized_answers = answers.map(answer_to_int)
+    answers_as_int = answers.map(answer_to_int)
 
     # Normalize the answers
-    return normalize_answers(normalized_answers, lower_bound, upper_bound)
+    normalized_answers = normalize_answers(
+        answers_as_int, lower_bound, upper_bound)
+
+    # Replace NaN with default value
+    normalized_answers = normalized_answers.fillna(default_value)
+
+    return normalized_answers
 
 
 def normalize_answers(answers, lower_bound=-1, upper_bound=1):
