@@ -95,3 +95,14 @@ def get_not_na_bool_answers(df, question_of_interest):
     Returns a boolean array of the answers to the question of interest
     """
     return df[question_of_interest].notna()
+
+def findMultipleQuestions(list,columns):
+    """
+    Permet de trouver toutes les questions ayant un nom partiellement présent
+    dans la liste, utile pour les attributs qui s'étalent sur plusieurs colonnes
+    exemple: 'pes19_taxes_' => 'pes19_taxes_1','pes19_taxes_2','pes19_taxes_3'
+    """
+    colList=[]
+    for question in list:
+        colList += [col for col in columns if question in col]  
+    return colList
