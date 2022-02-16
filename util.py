@@ -112,3 +112,44 @@ def findMultipleQuestions(list,columns):
     for question in list:
         colList += [col for col in columns if question in col]  
     return colList
+
+def getNumericColumns(df):
+    """
+    Permet de récuperer les noms de colonnes numériques
+    """
+    numerics = ['int16', 'int32', 'int64', 'float16', 'float32', 'float64']
+    return df.select_dtypes(include=numerics).columns
+
+def getCategoricalColumns(df):
+    """
+    Permet de récuperer tous les attributs que l'on pourrait considérer catégoriques c'est à dire qui ont des Réponses
+    non numériques et avec peu de valeurs possibles distinctes
+    """
+    # On élimine d'abord toutes les colonnes numériques
+    numerics = ['int16', 'int32', 'int64', 'float16', 'float32', 'float64']
+    objectDF = df.select_dtypes(include=['object'], exclude=numerics)
+    
+    # Ensuite on peut considérer que tous les attributs textuels avec plus de 10 labels différents
+    # sont des attributs de texte libre dont on ne veut pas
+    categoricalVariables=[]
+    for column in objectDF.columns:
+        if objectDF[column].nunique()<=10: 
+            categoricalVariables.append(column)
+    return categoricalVariables
+
+def getFreeTypeColumns(df):
+    """
+    Permet de récuperer tous les attributs de saisie libre
+    non numériques et avec beaucoup de valeurs possibles distinctes
+    """
+    # On élimine d'abord toutes les colonnes numériques
+    numerics = ['int16', 'int32', 'int64', 'float16', 'float32', 'float64']
+    objectDF = df.select_dtypes(include=['object'], exclude=numerics)
+    
+    # Ensuite on peut considérer que tous les attributs textuels avec plus de 10 labels différents
+    # sont des attributs de texte libre dont on ne veut pas
+    categoricalVariables=[]
+    for column in objectDF.columns:
+        if objectDF[column].nunique()>10: 
+            categoricalVariables.append(column)
+    return categoricalVariables
