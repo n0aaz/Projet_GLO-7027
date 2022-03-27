@@ -1,4 +1,4 @@
-data/CES19.csv
-data/CES19_codebook.pdf
+data/*.csv
+data/*.pdf
 .idea/
 __pycache__/
